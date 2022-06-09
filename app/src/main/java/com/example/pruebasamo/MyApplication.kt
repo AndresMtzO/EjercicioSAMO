@@ -5,8 +5,10 @@ import com.example.pruebasamo.helpers.Constants
 import com.example.pruebasamo.implementations.MoviesAndSeriesRepositoryApiImpl
 import com.example.pruebasamo.interfaces.IMoviesAndSeriesRepository
 import com.example.pruebasamo.network.IMoviesAPI
+import com.example.pruebasamo.viewmodels.ListViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -20,11 +22,11 @@ class MyApplication : Application() {
         startKoin{
             androidLogger()
             androidContext(this@MyApplication)
-            modules(networkModule, dataModule)
+            modules(networkModule, dataModule, viewModelModule)
         }
     }
 
-    val networkModule = module {
+    private val networkModule = module {
         single { getRetrofit() }
         single { getMoviesApi(get()) }
     }
@@ -40,7 +42,13 @@ class MyApplication : Application() {
         return retrofit.create(IMoviesAPI::class.java)
     }
 
-    val dataModule = module {
-        single<IMoviesAndSeriesRepository> { MoviesAndSeriesRepositoryApiImpl(get()) }
+    private val dataModule = module {
+        single<IMoviesAndSeriesRepository> { MoviesAndSeriesRepositoryApiImpl(get(), androidContext()) }
+    }
+
+    private val viewModelModule = module{
+        viewModel{
+            ListViewModel(get())
+        }
     }
 }

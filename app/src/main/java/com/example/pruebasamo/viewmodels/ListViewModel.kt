@@ -1,12 +1,9 @@
 package com.example.pruebasamo.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
-import com.example.pruebasamo.implementations.MoviesAndSeriesRepositoryApiImpl
 import com.example.pruebasamo.interfaces.IMoviesAndSeriesRepository
 import com.example.pruebasamo.models.Movie
 import kotlinx.coroutines.Dispatchers

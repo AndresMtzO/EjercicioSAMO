@@ -26,7 +26,7 @@ class MyApplication : Application() {
         }
     }
 
-    val networkModule = module {
+    private val networkModule = module {
         single { getRetrofit() }
         single { getMoviesApi(get()) }
     }
@@ -42,11 +42,11 @@ class MyApplication : Application() {
         return retrofit.create(IMoviesAPI::class.java)
     }
 
-    val dataModule = module {
-        single<IMoviesAndSeriesRepository> { MoviesAndSeriesRepositoryApiImpl(get()) }
+    private val dataModule = module {
+        single<IMoviesAndSeriesRepository> { MoviesAndSeriesRepositoryApiImpl(get(), androidContext()) }
     }
 
-    val viewModelModule = module{
+    private val viewModelModule = module{
         viewModel{
             ListViewModel(get())
         }
